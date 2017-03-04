@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="./styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <section class="container main-page">
+
+      <div class="jumbotron"></div>
+
+
+        <section ng-controller="mainCTRL">
+          <div class="well" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
+            Price: {{quote.btcPrice}} Delta: {{quote.delta}} Time: {{quote.timeStamp}}
+          </div>
+        </section>
+
+    </section>
+
+
+
+    <script src="./node_modules/angular/angular.js"></script>
+    <script src="./JS/app.js"></script>
+    <script src="./JS/priceListController.js"></script>
+    <script src="./JS/priceListApiService.js"></script>
+  </body>
+</html>
