@@ -1,4 +1,4 @@
-app.factory('priceListService',function($http){
+app.factory('priceListService',function($http,$q){
   return {
     getBtcPrice : function(){
       return $http({

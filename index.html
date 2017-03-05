@@ -9,15 +9,22 @@
   <body>
     <section class="container main-page">
 
-      <div class="jumbotron"></div>
-
-
         <section ng-controller="priceListCTRL">
-          <div class=panel>
-            Next price in: {{nextQuoteTime}} seconds
+          <div class="row top">
+            <div class="panel panel-success col-xs-1">
+              <div class="panel-heading">Next price in:</div>
+              <div class="panel-body">{{nextQuoteTime}}</div>
+              <div class="panel-footer">seconds</div>
+            </div>
+          <div class="jumbotron col-xs-11">
+            Bitcoin Data
           </div>
-          <div class="well" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
-            Price: {{quote.btcPrice}} Delta: {{quote.delta}} Time: {{quote.timeStamp}}
+          </div>
+
+          <div class="row">
+            <div class="well" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
+              Price: {{quote.btcPrice}} Delta: {{quote.delta}} Time: {{quote.timeStamp}}
+            </div>
           </div>
         </section>
 
