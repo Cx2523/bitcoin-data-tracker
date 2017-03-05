@@ -12,15 +12,16 @@
       <div class="jumbotron"></div>
 
 
-        <section ng-controller="mainCTRL">
+        <section ng-controller="priceListCTRL">
+          <div class=panel>
+            Next price in: {{nextQuoteTime}} seconds
+          </div>
           <div class="well" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
             Price: {{quote.btcPrice}} Delta: {{quote.delta}} Time: {{quote.timeStamp}}
           </div>
         </section>
 
     </section>
-
-
 
     <script src="./node_modules/angular/angular.js"></script>
     <script src="./JS/app.js"></script>

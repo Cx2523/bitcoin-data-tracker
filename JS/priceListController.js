@@ -1,23 +1,25 @@
-var app = angular.module('app',[]);
+app.controller('priceListCTRL',function($scope,$interval,priceListService){
 
-app.controller('mainCTRL',function($scope,mainService){
-
+  var timer, x;
   $scope.priceArr = [];
-
+  $scope.nextQuoteTime = 60;
 /////call api and initialize 1st price object in array
   function getInitialPrice(){
-    mainService.getBtcPrice().then(function(btcPrice){
-      $scope.priceArr.push(
-        new NextPrice(btcPrice, parsePrice(btcPrice.data.bpi.USD.rate))
-      );
+      priceListService.getBtcPrice().then(function(btcPrice){
+        $scope.priceArr.push(
+          new NextPrice(btcPrice, parsePrice(btcPrice.data.bpi.USD.rate))
+        );
+      timer = $interval(countDown, 100);
     });
   }
 /////call api, construct new price object, and push to array
   function getNewPrice() {
-    mainService.getBtcPrice().then(function(btcPrice){
+    priceListService.getBtcPrice().then(function(btcPrice){
       $scope.priceArr.push(
         new NextPrice(btcPrice, $scope.priceArr[length].btcPrice)
       );
+      $interval.cancel(timer);
+      timer = $interval(countDown, 100);
     });
   }
 /////Change color class based on delta
@@ -44,8 +46,20 @@ app.controller('mainCTRL',function($scope,mainService){
     this.deltaClass = colorChange(this.delta);
     this.timeStamp = new Date();
   }
+/////Countdown timer
+  function countDown(){
+      if($scope.nextQuoteTime < 0){
+        // console.log($scope.nextQuoteTime);
+        $scope.nextQuoteTime = 60;
+      }
+      else {
+        // console.log($scope.nextQuoteTime);
+        $scope.nextQuoteTime = $scope.nextQuoteTime - .1;
+      }
+  }
 
   getInitialPrice();
-  setInterval(getNewPrice,60000);
+  var quoteTimer = setInterval(getNewPrice,60000);
+
 
 });
