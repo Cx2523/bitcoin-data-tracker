@@ -1,3 +1,7 @@
+*{
+  font-family: 'Kanit', sans-serif;
+}
+
 .red{
   background-color: pink;
   color:red;
@@ -13,8 +17,7 @@
   color:orange;
 }
 .well{
-  border: 1px solid black;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .jumbotron{
@@ -24,22 +27,16 @@
   color:black;
   text-align: center;
   height:100%;
-
-}
-
-.panel-heading,.panel-footer{
-  font-size: .5em;
-  padding:2%;
-}
-.panel-body{
-  font-size: 1.5rem;
-}
-.panel{
-  padding:0;
-  text-align: center;
-  height:100%;
 }
 
 .top{
   height:5%;
+}
+
+.progress{
+  margin:0;
+}
+
+.panel{
+  border: 1px solid black;
 }

@@ -1,15 +1,21 @@
 app.controller('priceListCTRL',function($scope,$interval,priceListService){
 
-  var timer;
+/////initialize
+  var timer, oldPrice;
+  var identifier = 1;
   var reset = false;
   $scope.priceArr = [];
   $scope.nextQuoteTime = 60;
+
+  getInitialPrice();
+  setInterval(getNewPrice,60000);
+
 /////call api and initialize 1st price object in array
   function getInitialPrice(){
       timer = $interval(countDown, 10);
-      priceListService.getBtcPrice().then(function(btcPrice){
+      priceListService.getBtcPrice().then(function(btcQuote){
         $scope.priceArr.push(
-          new NextPrice(btcPrice, parsePrice(btcPrice.data.bpi.USD.rate))
+          new NextPrice(btcQuote, btcQuote.data.bpi.USD.rate)
         );
     });
   }
@@ -18,12 +24,14 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
     $interval.cancel(timer);
     reset = !reset;
     $scope.nextQuoteTime = "..."
-    priceListService.getBtcPrice().then(function(btcPrice){
+    priceListService.getBtcPrice().then(function(btcQuote){
+      oldPrice = $scope.priceArr[$scope.priceArr.length - 1].btcPrice;
       $scope.priceArr.push(
-        new NextPrice(btcPrice, $scope.priceArr[length].btcPrice)
+        new NextPrice(btcQuote, oldPrice)
       );
       timer = $interval(countDown, 10);
     });
+
   }
 /////Change color class based on delta
   function colorChange(delta){
@@ -44,25 +52,23 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
 /////Constructor for price objects
   function NextPrice(newPriceObj,oldPrice){
     this.btcPrice = parsePrice(newPriceObj.data.bpi.USD.rate);
-    this.btcPricePrev = oldPrice;
-    this.delta = this.btcPrice - this.btcPricePrev;
+    this.btcPricePrev = parsePrice(oldPrice);
+    this.delta = (this.btcPrice - this.btcPricePrev).toFixed(4);
     this.deltaClass = colorChange(this.delta);
     this.timeStamp = new Date();
+    this.identifier = "price" + identifier;
+    identifier++;
   }
 /////Countdown timer
   function countDown(){
       if (!reset){
         $scope.nextQuoteTime = 60;
         reset = !reset;
-
       }
       else {
         $scope.nextQuoteTime = ($scope.nextQuoteTime - .01).toFixed(2);
       }
   }
-
-  getInitialPrice();
-  setInterval(getNewPrice,60000);
 
 
 });

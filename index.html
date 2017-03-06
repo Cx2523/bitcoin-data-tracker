@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="./styles.css" rel="stylesheet">
   </head>
@@ -10,27 +11,58 @@
     <section class="container main-page">
 
         <section ng-controller="priceListCTRL">
-          <div class="row top">
-            <div class="panel panel-success col-xs-1">
-              <div class="panel-heading">Next price in:</div>
-              <div class="panel-body">{{nextQuoteTime}}</div>
-              <div class="panel-footer">seconds</div>
-            </div>
-          <div class="jumbotron col-xs-11">
+
+          <div class="jumbotron">
             Bitcoin Data
           </div>
-          </div>
+
 
           <div class="row">
-            <div class="well" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
-              Price: {{quote.btcPrice}} Delta: {{quote.delta}} Time: {{quote.timeStamp}}
+            <section class="quote-list col-md-5">
+
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{100 - 100 / 60 * nextQuoteTime}}%;">
+                </div>
+              </div>
+              <p>Next Quote in {{nextQuoteTime}}</p>
+
+            <div class="panel-group" id="accordion" role="tablist">
+                <div class="panel" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">
+
+                    <div role="button" class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#{{quote.identifier}}">
+                      Price: {{quote.btcPrice}} Delta: {{quote.delta}}
+                    </div>
+
+                    <div id="{{quote.identifier}}" class="panel-collapse collapse">
+
+                      <div class="panel-body">
+                        Time: {{quote.timeStamp}}
+                      </div>
+
+                    </div>
+
+                </div>
+
             </div>
+
+
+            </section>
+
+            <div class="graph col-md-offset-1 col-md-6">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
+
           </div>
+
         </section>
 
     </section>
 
+
+
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
     <script src="./node_modules/angular/angular.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
     <script src="./JS/app.js"></script>
     <script src="./JS/priceListController.js"></script>
     <script src="./JS/priceListApiService.js"></script>
