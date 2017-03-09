@@ -1,1 +1,6 @@
-<h1>This is timer bar!</h1>
+<h3>Up to the minute prices:</h3>
+<div class="progress">
+  <div class="progress-bar" role="progressbar" style="width: {{100 - 100 / 60 * nextQuoteTime}}%;">
+  </div>
+</div>
+<p>Next Quote in {{nextQuoteTime}}</p>

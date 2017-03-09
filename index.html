@@ -16,17 +16,10 @@
             Bitcoin Data
           </div>
 
-          <timer-bar></timer-bar>
-
-
           <div class="row">
             <section class="quote-list col-md-5">
 
-              <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{100 - 100 / 60 * nextQuoteTime}}%;">
-                </div>
-              </div>
-              <p>Next Quote in {{nextQuoteTime}}</p>
+            <cc-timer-bar next-quote-time="nextQuoteTime"></cc-timer-bar>
 
             <div class="panel-group" id="accordion" role="tablist">
                 <div class="panel" ng-repeat="quote in priceArr | orderBy:quote.timeStamp:true|limitTo:10" ng-class="quote.deltaClass">

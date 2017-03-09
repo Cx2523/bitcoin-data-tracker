@@ -1,7 +1,9 @@
-app.directive('timerBar',function(){
+app.directive('ccTimerBar',function(){
 return {
-  restrict: 'E',
-  templateUrl: './JS/directives/timer-template.html'
-};
-
+    restrict: 'E',
+    templateUrl: './JS/directives/timer-template.html',
+    scope:{
+      nextQuoteTime: "="
+    }
+  };
 });
