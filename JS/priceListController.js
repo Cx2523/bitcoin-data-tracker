@@ -16,7 +16,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
       timer = $interval(countDown, 10);
       priceListService.getBtcPrice().then(function(btcQuote){
         $scope.priceArr.push(
-          new NextPrice(btcQuote, btcQuote.data.bpi.USD.rate)
+          new NextPrice(btcQuote, btcQuote)
         );
       });
   }
@@ -26,9 +26,9 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
     reset = !reset;
     $scope.nextQuoteTime = "..."
     priceListService.getBtcPrice().then(function(btcQuote){
-      oldPrice = $scope.priceArr[$scope.priceArr.length - 1].btcPrice;
+      oldPriceObj = $scope.priceArr[$scope.priceArr.length - 1];
       $scope.priceArr.push(
-        new NextPrice(btcQuote, oldPrice)
+        new NextPrice(btcQuote, oldPriceObj)
       );
       timer = $interval(countDown, 10);
     });
@@ -51,10 +51,11 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
     return parseFloat(price.replace(",","")).toFixed(4);
   }
 /////Constructor for price objects
-  function NextPrice(newPriceObj,oldPrice){
+  function NextPrice(newPriceObj,oldPriceObj){
     this.btcPrice = parsePrice(newPriceObj.data.bpi.USD.rate);
-    this.btcPricePrev = parsePrice(oldPrice);
+    this.btcPricePrev = parsePrice(oldPriceObj.data.bpi.USD.rate);
     this.delta = (this.btcPrice - this.btcPricePrev).toFixed(4);
+    this.prevDelta = oldPriceObj.delta;
     this.deltaClass = colorChange(this.delta);
     this.timeStamp = new Date();
     this.identifier = "price" + identifier;
