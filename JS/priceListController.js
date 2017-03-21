@@ -6,6 +6,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
   var reset = false;
   $scope.priceArr = [];
   $scope.nextQuoteTime = 60;
+  $scope.sortParam;
 
   getInitialPrice();
   setInterval(getNewPrice,60000);
@@ -17,7 +18,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
         $scope.priceArr.push(
           new NextPrice(btcQuote, btcQuote.data.bpi.USD.rate)
         );
-    });
+      });
   }
 /////call api, construct new price object, and push to array
   function getNewPrice() {

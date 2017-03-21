@@ -40,3 +40,12 @@
 .panel{
   border: 1px solid black;
 }
+
+.graph{
+  border:2px solid red;
+  height:500px;
+}
+
+svg{
+  border:2px solid red;
+}
