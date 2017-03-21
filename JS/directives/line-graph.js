@@ -17,12 +17,14 @@ app.directive('ccLineGraph',function(){
                   .attr("height", h);
 
       scope.$watchCollection('priceArr',function(v){
+
         scaleY =
-          d3.scaleLinear()
+          d3.scaleSqrt()
           .domain(
-              [getMaxOfObjectProp('btcPrice',scope.priceArr,false),
-               getMaxOfObjectProp('btcPrice',scope.priceArr,true)])
-          .range([h, 0.1 * h]);
+              [0,
+               getMaxOfObjectProp('delta',scope.priceArr,true)])
+          .range([h, 0]);
+
         drawBars();
       });
 
@@ -30,23 +32,25 @@ app.directive('ccLineGraph',function(){
       function drawBars(){
         svg.selectAll("rect")
           .data(scope.priceArr)
-          .attr("x", function(d,i){
-            return i * w / scope.priceArr.length;
+          .attr("y", function(d){
+            return scaleY(d.delta);
           })
-          .attr("width", w / scope.priceArr.length - padding)
+          .attr("height", function(d){
+            return h - scaleY(d.delta);
+          })
           .enter()
           .append("rect")
             .attr("x", function(d,i){
-              return i * w / scope.priceArr.length;
+              return i * w / 10;
             })
             .attr("y", function(d){
-              return scaleY(d.btcPrice);
+              return scaleY(d.delta);
             })
-            .attr("width", w / scope.priceArr.length - padding)
+            .attr("width", w / 10 - padding)
             .attr("height", function(d){
-              return h - scaleY(d.btcPrice);
+              return h - scaleY(d.delta);
             })
-            .style('fill', 'orange')
+            .style('fill', 'black')
               .append("text")
               .style('fill', 'black')
               .text(function(d){
