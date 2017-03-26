@@ -9,6 +9,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
   $scope.sortParam;
 
   getInitialPrice();
+
   setInterval(getNewPrice,60000);
 
 /////call api and initialize 1st price object in array
@@ -16,10 +17,18 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
       timer = $interval(countDown, 10);
       priceListService.getBtcPrice().then(function(btcQuote){
         $scope.priceArr.push(
-          new NextPrice(btcQuote, btcQuote)
+          {
+            btcPrice : parsePrice(btcQuote.data.bpi.USD.rate),
+            btcPricePrev : null,
+            delta : 0,
+            prevDelta : null,
+            deltaClass : "yellow",
+            timeStamp : new Date(),
+            identifier : "price0"
+          }
         );
       });
-  }
+    }
 /////call api, construct new price object, and push to array
   function getNewPrice() {
     $interval.cancel(timer);
@@ -53,7 +62,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
 /////Constructor for price objects
   function NextPrice(newPriceObj,oldPriceObj){
     this.btcPrice = parsePrice(newPriceObj.data.bpi.USD.rate);
-    this.btcPricePrev = parsePrice(oldPriceObj.data.bpi.USD.rate);
+    this.btcPricePrev = parsePrice(oldPriceObj.btcPrice);
     this.delta = (this.btcPrice - this.btcPricePrev).toFixed(4);
     this.prevDelta = oldPriceObj.delta;
     this.deltaClass = colorChange(this.delta);

@@ -7,55 +7,56 @@ app.directive('ccLineGraph',function(){
       priceArr: '='
     },
     link: function(scope, element, attrs, controller){
-      var w = 500;
-      var h = 500;
+      var w = 750;
+      var h = 750;
       var padding = 2;
       // var testData = [100, 200, 500, 200, 300, 400];
       var scaleY;
+      scaleY =
+        d3.scaleLinear()
+        .domain([5,-5])
+        .range([0, h]);
+
       var svg = d3.select("svg")
                   .attr("width", w)
                   .attr("height", h);
 
       scope.$watchCollection('priceArr',function(v){
-
-        scaleY =
-          d3.scaleSqrt()
-          .domain(
-              [0,
-               getMaxOfObjectProp('delta',scope.priceArr,true)])
-          .range([h, 0]);
-
         drawBars();
       });
 
+      var yAccumulator = 0;
 
       function drawBars(){
-        svg.selectAll("rect")
+      svg.selectAll("rect") //don't need update phase unless scale is dynamic
           .data(scope.priceArr)
-          .attr("y", function(d){
-            return scaleY(d.delta);
-          })
-          .attr("height", function(d){
-            return h - scaleY(d.delta);
-          })
           .enter()
           .append("rect")
             .attr("x", function(d,i){
               return i * w / 10;
             })
             .attr("y", function(d){
-              return scaleY(d.delta);
+              d.delta = +d.delta;
+              d.prevDelta = +d.prevDelta;
+              return scaleY(Math.max(yAccumulator, yAccumulator + d.delta));
             })
             .attr("width", w / 10 - padding)
-            .attr("height", function(d){
-              return h - scaleY(d.delta);
+            .transition()
+            .duration(1000)
+            .attr("height", function(d, i){
+              d.delta = +d.delta;
+              d.prevDelta = +d.prevDelta;
+              yAccumulator = yAccumulator + d.delta
+              return scaleY(Math.min(yAccumulator, yAccumulator + d.delta)) - scaleY(Math.max(yAccumulator, yAccumulator + d.delta));
             })
-            .style('fill', 'black')
-              .append("text")
-              .style('fill', 'black')
-              .text(function(d){
-                return d.btcPrice;
-              });
+            .attr("fill",function(d){
+              if(d.delta < 0){
+                return "red";
+              }
+              else if (d.delta > 0){
+                return "green";
+              }
+            });
         }
 
         function getMaxOfObjectProp(property, objectArr, maxmin){
