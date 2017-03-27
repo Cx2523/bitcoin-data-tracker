@@ -1,48 +1,92 @@
 *{
-  font-family: 'Kanit', sans-serif;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .red{
-  background-color: pink;
-  color:red;
+  background-color: #F79695;
+  color:white;
 }
 
 .green{
-  background-color: lightgreen;
-  color:green;
+  background-color: #A0CE7F;
+  color:white;
 }
 
 .yellow{
-  background-color: lightyellow;
-  color:orange;
+  background-color: #FBAB66;
+  color:white;
 }
 .well{
-  font-size: 1.8rem;
-}
-
-.jumbotron{
-  background-image: linear-gradient(to top, lightblue, white, lightblue);
-  background-position: center;
-  background-size: contain;
-  color:black;
-  text-align: center;
-  height:100%;
+  font-size: 2rem;
 }
 
 .top{
   height:5%;
 }
 
+nav{
+  background-color: #424242;
+  font-size:  40px;
+  color: white;
+  font-weight: bolder;
+  padding:10px;
+}
+
+
 .progress{
   margin:0;
 }
 
-.panel{
-  border: 1px solid black;
+.progress-bar{
+  background-color: #99CCEE;
 }
 
+.price-list{
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 5px;
+  box-shadow: -2px 2px 3px;
+}
 
+.chart-container{
+  box-shadow: 4px 4px 10px;
+  border:none;
+}
 
-svg{
-  border:2px solid red;
+.axis{
+  font-size: 14px;
+}
+
+h3{
+  margin-top: 0;
+}
+
+.disclaimer{
+  font-size: 8px;
+}
+
+.last-quote{
+  height: 150px;
+  font-size: 40px;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: -3px 3px 5px;
+}
+
+.historical-data{
+  margin-top: 20px;
+  font-size:  20px;
+  border: 2px solid green;
+  text-align: center;
+  height:200px;
+}
+
+select{
+  margin: 5px;
+}
+
+.quote-list{
+  box-shadow: -3px 3px 3px;
+  padding:5px;
+  margin-top:20px;
 }

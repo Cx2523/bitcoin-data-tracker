@@ -1,31 +1,39 @@
-app.directive('ccLineGraph',function(){
+app.directive('ccWaterfallChart',function(){
   return {
     restrict:'E',
     replace: true,
-    templateUrl: './JS/directives/line-graph-template.html',
+    templateUrl: './JS/directives/waterfall-chart-template.html',
     scope:{
       priceArr: '='
     },
     link: function(scope, element, attrs, controller){
-      var w = 750;
-      var h = 750;
-      var padding = 2;
+      var w = 450;
+      var h = 400;
+      var axisPadding = 30;
+      var barPadding = 2;
       // var testData = [100, 200, 500, 200, 300, 400];
-      var scaleY;
-      scaleY =
-        d3.scaleLinear()
+      var scaleY = d3.scaleLinear()
         .domain([5,-5])
-        .range([0, h]);
+        .range([10, h - 10]);
+
+      var yAxisDelta = d3.axisLeft()
+         .scale(scaleY);
 
       var svg = d3.select("svg")
                   .attr("width", w)
-                  .attr("height", h);
+                  .attr("height", h)
+                  .append("g")
+                  .call(yAxisDelta)
+                    .attr("transform", "translate(" + axisPadding + ",0)")
+                    .attr("class", "axis");
+
+      var yAccumulator = 0;
 
       scope.$watchCollection('priceArr',function(v){
         drawBars();
       });
 
-      var yAccumulator = 0;
+
 
       function drawBars(){
       svg.selectAll("rect") //don't need update phase unless scale is dynamic
@@ -40,7 +48,7 @@ app.directive('ccLineGraph',function(){
               d.prevDelta = +d.prevDelta;
               return scaleY(Math.max(yAccumulator, yAccumulator + d.delta));
             })
-            .attr("width", w / 10 - padding)
+            .attr("width", w / 10 - barPadding)
             .transition()
             .duration(1000)
             .attr("height", function(d, i){
@@ -51,29 +59,13 @@ app.directive('ccLineGraph',function(){
             })
             .attr("fill",function(d){
               if(d.delta < 0){
-                return "red";
+                return "#F79695";
               }
               else if (d.delta > 0){
-                return "green";
+                return "#A0CE7F";
               }
             });
         }
-
-        function getMaxOfObjectProp(property, objectArr, maxmin){
-          return objectArr.map(function(obj){
-            return obj[property];
-          }).reduce(function(accumulator, value){
-            if(maxmin){
-              return Math.max(accumulator, value);
-            }
-            else{
-              return Math.min(accumulator, value);
-            }
-          });
-        }
-        //this helper function get the max or min value of a property
-        //you select from an array of objects. Default is max. Set
-        //maxmin to false for min.
 
     },
   };

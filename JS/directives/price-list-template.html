@@ -1,0 +1,19 @@
+<section class="quote-list">
+
+  <div>Sort by:
+    <select ng-model="sortParam">
+      <option value="-timeStamp">Time (new to old)</option>
+      <option value="+timeStamp">Time (old to new)</option>
+      <option value="-btcPrice">Price (high to low)</option>
+      <option value="+btcPrice">Price (low to high)</option>
+      <option value="-delta">Change (high to low)</option>
+      <option value="+delta">Change (low to high)</option>
+    </select>
+  </div>
+
+  <div class="panel price-list" ng-repeat="quote in priceArr | orderBy:sortParam | limitTo : 10" ng-class="quote.deltaClass">
+      <div>
+        Price: {{quote.btcPrice}} Delta: {{quote.delta}}
+      </div>
+  </div>
+</section>

@@ -6,7 +6,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
   var reset = false;
   $scope.priceArr = [];
   $scope.nextQuoteTime = 60;
-  $scope.sortParam;
+  $scope.sortParam = "-timeStamp";
 
   getInitialPrice();
 
@@ -27,6 +27,8 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
             identifier : "price0"
           }
         );
+        $scope.disclaimer = btcQuote.data.disclaimer;
+        $scope.lastPrice = $scope.priceArr[0];
       });
     }
 /////call api, construct new price object, and push to array
@@ -40,6 +42,7 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
         new NextPrice(btcQuote, oldPriceObj)
       );
       timer = $interval(countDown, 10);
+      $scope.lastPrice = $scope.priceArr[$scope.priceArr.length - 1];
     });
 
   }
@@ -80,6 +83,8 @@ app.controller('priceListCTRL',function($scope,$interval,priceListService){
         $scope.nextQuoteTime = ($scope.nextQuoteTime - .01).toFixed(2);
       }
   }
+
+
 
 
 });

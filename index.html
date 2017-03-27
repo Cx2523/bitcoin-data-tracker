@@ -2,8 +2,8 @@
 <html ng-app="app">
   <head>
     <meta charset="utf-8">
-    <title></title>
-    <link href="https://fonts.googleapis.com/css?family=Kanit" rel="stylesheet">
+    <title>Bitcoin Data Tracker</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="./styles.css" rel="stylesheet">
   </head>
@@ -12,49 +12,37 @@
 
         <section ng-controller="priceListCTRL">
 
-          <div class="jumbotron">
-            Bitcoin Data
+          <nav class="navbar">
+            BITCOIN DATA
+          </nav>
+
+          <div class="row">
+            <div class="col-md-offset-6 col-md-6">
+              <cc-timer-bar next-quote-time="nextQuoteTime"></cc-timer-bar>
+            </div>
           </div>
 
           <div class="row">
-            <section class="quote-list col-md-5">
+            <div class="col-md-5">
+              <div class="last-quote">
+                <cc-last-quote last-price="lastPrice"></cc-last-quote>
+              </div>
 
-            <cc-timer-bar next-quote-time="nextQuoteTime"></cc-timer-bar>
-
-            <!-- <select ng-model="sortParam">
-              <option value="-quote.timeStamp">Time (old to new)</option>
-              <option value="+quote.timeStamp">Time (new to old)</option>
-              <option value="-quote.btcPrice">Price (high to low)</option>
-              <option value="+quote.btcPrice">Price (low to high)</option>
-              <option value="-quote.delta">Change (high to low)</option>
-              <option value="+quote.delta">Change (low to high)</option>
-            </select>
-            {{sortParam}} -->
-
-            <div class="panel-group" id="accordion" role="tablist">
-                <div class="panel" ng-repeat="quote in priceArr | orderBy:quote.btcPrice:true" ng-class="quote.deltaClass">
-
-                    <div role="button" class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#{{quote.identifier}}">
-                      Price: {{quote.btcPrice}} Delta: {{quote.delta}}
-                    </div>
-
-                    <div id="{{quote.identifier}}" class="panel-collapse collapse">
-                      <div class="panel-body">
-                        Time: {{quote.timeStamp}}
-                      </div>
-                    </div>
-
-                </div>
-
+              <cc-price-list price-arr="priceArr" sort-param="sortParam"></cc-price-list>
             </div>
-
-
-            </section>
 
             <div class="graph col-md-offset-1 col-md-6">
-              <cc-line-graph price-arr="priceArr"></cc-line-graph>
+              <cc-waterfall-chart price-arr="priceArr"></cc-waterfall-chart>
+              <p class="disclaimer">{{disclaimer}}</p>
             </div>
 
+          </div>
+
+
+          <div class="row">
+            <div class="col-xs-12 historical-data">
+              Historical Data ... coming soon ...
+            </div>
           </div>
 
         </section>
@@ -71,6 +59,9 @@
     <script src="./JS/priceListController.js"></script>
     <script src="./JS/priceListApiService.js"></script>
     <script src="./JS/directives/timer-progress.js"></script>
-    <script src="./JS/directives/line-graph.js"></script>
+    <script src="./JS/directives/last-quote.js"></script>
+    <script src="./JS/directives/waterfall-chart.js"></script>
+    <script src="./JS/directives/price-list.js"></script>
+
   </body>
 </html>
