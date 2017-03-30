@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "sleepms 1000 && open http://localhost:8080 && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +15,7 @@
     "bootstrap": "^3.3.7",
     "d3": "^4.7.3",
     "express": "^4.15.0",
-    "jquery": "^3.1.1"
+    "jquery": "^3.1.1",
+    "sleep-ms": "^2.0.1"
   }
 }
